@@ -14,12 +14,12 @@ class IsStudentAdmin(admin.ModelAdmin):
 class ChatAdmin(admin.ModelAdmin):
     list_display = ['id','content','time','user','group']
 
-@admin.register(Group)
-class GroupAdmin(admin.ModelAdmin):
-    list_display = ['id','name','admin','participants_group']
+# @admin.register(Group)
+# class GroupAdmin(admin.ModelAdmin):
+#     list_display = ['id','name','admin','participants_group']
 
-    def participants_group(self,obj):
-        return ", ".join([participant.username for participant in obj.participants.all()])
+#     def participants_group(self,obj):
+#         return ", ".join([participant.username for participant in obj.participants.all()])
 
 
 
