@@ -1,0 +1,62 @@
+{% extends 'professor/base.html' %} 
+{% load static %}
+{% block main %} 
+{%include 'professor/header.html' %}
+
+    <!-- Main Start -->
+    <div class="main">
+
+        <!-- Open Tasks Start -->
+        <div class="container">
+            
+            <h1 class="my-3 text-center">Take Attendance</h1>
+
+            {% if enrollment %}
+            <div class="container ">
+              <table class="table table-responsive table-hover">
+                    <thead>
+                      <tr>
+                        <th class="col">#</th>
+                        <th class="col">Student Name</th>
+                        <th class="col">Batch no</th>
+                        <th class="col">Class</th>
+                        <th class="col">Section</th>
+                        <th class="col">Present?</th> 
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <form method="post">
+                        {% csrf_token %}
+                        {% for student in enrollment %}
+                        <tr>
+                        {% comment %} <td>{{student.assign_professor_id.course_id}}</td> {% endcomment %}
+                        <td>{{forloop.counter}}</td>
+                        <td>{{student.stu_id.first_name}} {{student.stu_id.last_name}}</td>
+                        <td>{{student.assign_professor_id.class_id.batch}}</td>
+                        <td>{{student.assign_professor_id.class_id.title}}</td>
+                        <td>{{student.assign_professor_id.class_id.section}}</td>
+                        <td><input type="checkbox" name="is_present"></td>
+                        
+                        
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+                
+                
+                <center><input type="submit" class="btn btn-primary my-5" value="Submit"></center>
+              </form>
+              </div>
+              
+              {% else %}
+                <div class="my-5">
+                  <center><h1 style="margin-top:10%;color:red;">No Records to show </h1></center>
+                </div>
+                {% endif %}
+
+              </div>
+
+              
+            </div>
+            {% include 'professor/footer.html' %} {% endblock main %}
+       

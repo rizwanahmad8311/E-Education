@@ -1,0 +1,140 @@
+{% extends 'student/base.html' %}
+{% load static %}
+{% block main %}
+
+
+{% include 'student/header.html' %}
+
+
+    <!-- Main Start -->
+    <div class="main">
+
+        <!-- Open Tasks Start -->
+        <div class="container">
+            <div class="table-content"></div>
+            <h1 class="my-3 text-center">Courses</h1>
+
+            <div class="container ">
+                <table class="table table-responsive table-hover">
+                    <thead>
+                      <tr>
+                        <th class="col">Course Title</th>
+                        <th class="col">Professor</th>
+                        <th class="col">Batch no</th>
+                        <th class="col">Class</th>
+                        <th class="col">Section</th>
+                        <th class="col">Status</th> 
+                      </tr>
+                    </thead>
+                    <tbody>
+                          
+                      {% for enrollment in enrollments %}
+                      <tr>
+                        <td>{{enrollment.assign_professor_id.course_id}}</td>
+                        <td>{{enrollment.assign_professor_id.prf_id.first_name}} {{enrollment.assign_professor_id.prf_id.last_name}}</td>
+                        <td>{{enrollment.assign_professor_id.class_id.batch}}</td>
+                        <td>{{enrollment.assign_professor_id.class_id.title}}</td>
+                        <td>{{enrollment.assign_professor_id.class_id.section}}</td>
+
+
+
+
+                        {% if enrollment.status == True %}
+                        <td><p class="badge badge-success">Enrolled</p></td>
+                        <td><button type="button" onclick="Course_id({{enrollment.assign_professor_id.course_id.id}},{{enrollment.assign_professor_id.prf_id.id}},)" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">View</button></td>
+                        {% else %}                        
+                        <td><p class="badge badge-warning">Applied</p></td>
+                        {% endif %}
+
+
+                          </tr>
+                      {% endfor %}
+
+                    </tbody>
+                  </table>
+
+            </div>
+
+
+
+        </div>
+
+        <!-- Open Tasks End -->
+        
+          <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+            <div class="container">
+                <div class="table-content"></div>
+                <h1 class="my-3 text-center">Lectures</h1>
+    
+                <div class="container ">
+                    <table class="table table-responsive table-hover">
+                        <thead>
+                          <tr>
+                            <th class="col">Course Title</th>
+                            <th class="col">Lecture Title</th>
+                            <th class="col">Created At</th>
+                            <th class="col">Lecture</th> 
+                          </tr>
+                        </thead>
+                        <tbody id="lecture-table-body">
+                            {% for lectures in course_media %}
+                                <tr data-course-id="{{ lectures.course_id.id }}" data-prf-id="{{ lectures.prf_id.id }}">
+                                    <td>{{ lectures.course_id }}</td>
+                                    <td>{{ lectures.title }}</td>
+                                    <td>{{ lectures.created_at }}</td>
+                                    <td><a type="button" download="" class="btn btn-success" href="{{ lectures.file.url }}">Download</a></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                      </table>
+    
+                </div>
+    
+    
+    
+            </div>
+              
+              
+
+                </div>
+                
+              </div>
+                  
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function Course_id(course_id,prf_id){
+
+      var tableRows = document.querySelectorAll('#lecture-table-body tr');
+      for (var i = 0; i < tableRows.length; i++) {
+          var row = tableRows[i];
+          var dataCourseId = parseInt(row.getAttribute('data-course-id'));
+          var dataPrfId = parseInt(row.getAttribute('data-prf-id'));
+
+          if (dataCourseId === course_id && dataPrfId === prf_id) {
+              row.style.display = 'table-row';
+          } else {
+              row.style.display = 'none';
+          }
+      }
+    }
+  </script>
+
+
+
+{% include 'student/footer.html' %}
+  {% endblock main %}

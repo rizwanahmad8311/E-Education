@@ -1,0 +1,226 @@
+{% extends 'student/base.html' %}
+{% load static %}
+{% block main %}
+{% include 'student/header.html' %}
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+
+  <title>SQG</title>
+
+ 
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}" />
+
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css?family=Poppins:400,600,700&display=swap" rel="stylesheet">
+   
+  <!-- responsive style -->
+  <link href="{% static 'css/responsive.css' %}" rel="stylesheet" />
+<style>
+body {font-family: Arial, Helvetica, sans-serif;
+background-color: cadetblue;}
+form {border: 6px solid #f1f1f1;}
+form{
+   
+  margin-top: 3%;
+  margin-bottom: 2%;
+  width: 500px;
+  background-color: white;
+}
+
+input[type=text], input[type=password],input[type=email] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+button {
+  background-color: cadetblue;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+label{
+  font-weight: bold;
+}
+ 
+ 
+
+ 
+
+.container {
+  padding: 16px;
+  text-align: left;
+}
+
+{% comment %} span.psw {
+  padding-top: 16px;
+} {% endcomment %}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+  span.psw {
+     display: block;
+     float: none;
+     text-align: center;
+  }
+
+   
+}
+@media screen and (max-width: 540px) {
+  form{
+    max-width:90%;  }
+   
+}
+ 
+
+/* alert css */
+
+.alert {
+	{% comment %} padding: 8px; {% endcomment %}
+	background-color: #f44336;
+	color: white;
+	opacity: 1;
+	transition: opacity 0.6s;
+	margin-top: 15px;
+	margin-bottom: 15px;
+  {% comment %} width:30%; {% endcomment %}
+  }
+  
+  .alert.success {background-color: #04AA6D;}
+  .alert.info {background-color: #2196F3;}
+  .alert.warning {background-color: #ff9800;}
+  
+  .closebtn {
+	margin-left: 10px;
+	color: white;
+	font-weight: bold;
+	float: right;
+	font-size: 22px;
+	line-height: 20px;
+	cursor: pointer;
+	transition: 0.3s;
+  }
+  
+  .closebtn:hover {
+	color: black;
+  }
+
+</style>
+
+</head>
+
+<body>
+
+   
+   
+
+
+ 
+<center>
+<form  method="post" novalidate >
+  {% csrf_token %}
+ 
+
+                    {% if success %}
+                    <div class="alert success">
+                        <span class="closebtn">&times;</span>  
+                        <h6>{{success}}</h6>
+                    </div>
+                    {% elif error %}
+                    <div class="alert">
+                        <span class="closebtn">&times;</span>  
+                        <h6>{{error}}</h6>
+                    </div>
+                    {% elif form.first_name.errors %}
+                    <div class="alert">
+                        <span class="closebtn">&times;</span>  
+                        <h6 style="text-decoration:none;">{{form.first_name.errors|striptags}}</h6>
+                    </div>
+                    {% elif form.last_name.errors %}
+                    <div class="alert">
+                        <span class="closebtn">&times;</span>  
+                        <h6>{{form.last_name.errors|striptags}}</h6>
+                    </div>
+                    {% elif form.email.errors %}
+                    <div class="alert">
+                        <span class="closebtn">&times;</span>  
+                        <h6>{{form.email.errors|striptags}}</h6>
+                    </div>
+                    {% elif form.username.errors %}
+                    <div class="alert">
+                        <span class="closebtn">&times;</span>  
+                        <h6>{{form.username.errors|striptags}}</h6>
+                    </div>
+                    {% elif form.password.errors %}
+                    <div class="alert">
+                        <span class="closebtn">&times;</span>  
+                        <h6>{{form.password.errors|striptags}}</h6>
+                    </div>
+                    {% endif %}
+  <div class="container">
+    <div class="d-flex justify-content-center align-items-center mb-3 mt-3">
+        <h4 >Profile Settings</h4>
+    </div>
+    <div class="row mt-2">
+        <div class="col-md-6" >{{form.first_name.label_tag}}{{form.first_name}}</div>
+        <div class="col-md-6">{{form.last_name.label_tag}}{{form.last_name}}</div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-md-12">{{form.email.label_tag}}{{form.email}}</div>
+        <div class="col-md-12">{{form.username.label_tag}}{{form.username}}</div>
+        <div class="col-md-12">{{form.password.label_tag}}{{form.password}}</div>
+</div>
+
+<div class="text-center"><button class="btn btn-primary profile-button" type="submit">Save Profile</button></div>
+
+    {% comment %} <button type="submit">Sign Up</button> {% endcomment %}
+
+
+  </div>
+  
+
+</form>
+</center> 
+
+
+<script>
+    var close = document.getElementsByClassName("closebtn");
+    var i;
+    
+    for (i = 0; i < close.length; i++) {
+        close[i].onclick = function(){
+            var div = this.parentElement;
+            div.style.opacity = "0";
+            setTimeout(function(){ div.style.display = "none"; }, 600);
+        }
+    }
+</script>
+
+   
+</body>
+
+</html>
+{% include 'student/footer.html' %}
+{% endblock main %}

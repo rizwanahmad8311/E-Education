@@ -1,0 +1,59 @@
+{% extends 'student/base.html' %}
+{% load static %}
+{% block formscss %}  <link href="{% static 'css/forms.css' %}" rel="stylesheet" />{% endblock formscss %}
+{% block main %}
+{% include 'student/header.html' %}
+
+<center>
+<form  method="post" novalidate>
+ {% csrf_token %}
+ <div style="margin-top:5%;margin-bottom:5%;font-size:20px;">
+
+   <b><h1 >Login</h1></b>
+  </div>
+   {% if success %}
+  <div class="alert success">
+      <span class="closebtn">&times;</span>  
+      <h6>{{success}}</h6>
+  </div>
+  {% elif error %}
+  <div class="alert">
+      <span class="closebtn">&times;</span>  
+      <h6>{{error}}</h6>
+  </div>
+  {% endif %}
+  <div class="container">
+    <label for="username"><b>Username</b></label>
+    <input type="text"   name="username" value="{{username}}" required>
+
+    <label for="password"><b>Password</b></label>
+    <input type="password"   name="password" required>
+    {% comment %} <span class="psw"><a href="{% url 'forgot-password' %}">Forgot password?</a></span> {% endcomment %}
+    <span class="psw"><a href="{% url 'st-forgot-password' %}">Forgot password?</a></span>
+        
+    <button type="submit">Login</button>
+     <center style="margin-top:20px;" >Don't have an account? <b><a  href="{% url 'st-signup' %}">Sign up</a></b></center>
+
+
+  </div>
+
+</form>
+</center>
+
+
+<script>
+  var close = document.getElementsByClassName("closebtn");
+  var i;
+  
+  for (i = 0; i < close.length; i++) {
+    close[i].onclick = function(){
+      var div = this.parentElement;
+      div.style.opacity = "0";
+      setTimeout(function(){ div.style.display = "none"; }, 600);
+    }
+  }
+  </script>
+   
+
+{% include 'student/footer.html' %}
+{% endblock main %}

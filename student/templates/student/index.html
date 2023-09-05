@@ -1,0 +1,88 @@
+{% extends 'student/base.html' %}
+{% load static %}
+{% block main %}
+
+
+{% include 'student/header.html' %}
+
+
+<section class="work_section layout_padding">
+  <div class="container">
+    <center><h1 class="mb-5">Dashboard</h1></center>
+    <div class="row">
+
+      <div class="col-md-6">
+        <div class="detail_container">
+          <a href="{% url 'courses' %}" class="text-dark">
+            <div class="box b-1">
+              <div class="top-box">
+                <div class="icon-box">
+                  <img src="{% static 'images/work-i1.png' %}" alt="" />
+                </div>
+                <h5>Courses<i class="fa fa-arrow-right"></i></h5>
+                <h5></h5>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      {% comment %} <div class="col-md-6">
+        <div class="detail_container">
+          <a href="{% url 'myattendance' %}" class="text-dark">
+            <div class="box b-1">
+              <div class="top-box">
+                <div class="icon-box">
+                  <img src="{% static 'images/work-i1.png' %}" alt="" />
+                </div>
+                <h5>My Attendance<i class="fa fa-arrow-right"></i></h5>
+                <h5></h5>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div> {% endcomment %}
+
+      <div class="col-md-6">
+        <div class="detail_container">
+          <a href="{% url 'myenrollments' %}" class="text-dark">
+            <div class="box b-1">
+              <div class="top-box">
+                <div class="icon-box">
+                  <img src="{% static 'images/work-i1.png' %}" alt="" />
+                </div>
+                <h5>My Enrollments<i class="fa fa-arrow-right"></i></h5>
+                <h5></h5>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      {% comment %} <div class="col-md-6">
+        <div class="detail_container">
+          <a href="#" class="text-dark">
+            <div class="box b-1">
+              <div class="top-box">
+                <div class="icon-box">
+                  <img src="{% static 'images/work-i1.png' %}" alt="" />
+                </div>
+                <h5>My Transcript<i class="fa fa-arrow-right"></i></h5>
+                <h5></h5>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div> {% endcomment %}
+
+
+
+
+    </div>
+  </div>
+</section>
+
+
+
+{% include 'student/footer.html' %}
+  {% endblock main %}

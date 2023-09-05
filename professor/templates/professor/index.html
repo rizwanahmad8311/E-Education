@@ -1,0 +1,52 @@
+{% extends 'professor/base.html' %} 
+{% load static %}
+{% block main %} 
+{%include 'professor/header.html' %}
+
+<!-- work section -->
+
+<section class="work_section layout_padding">
+  <div class="container">
+    <div class="row">
+
+      <div class="col-md-6">
+        <div class="detail_container">
+          <a href="{% url 'prf-mycourses' %}" class="text-dark">
+            <div class="box b-1">
+              <div class="top-box">
+                <div class="icon-box">
+                  <img src="{% static 'images/work-i1.png' %}" alt="" />
+                </div>
+                <h5>My Courses<i class="fa fa-arrow-right"></i></h5>
+                <h5></h5>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      {% comment %} <div class="col-md-6">
+        <div class="detail_container">
+          <a href="{% url 'prf-attendance' %}" class="text-dark">
+            <div class="box b-1">
+              <div class="top-box">
+                <div class="icon-box">
+                  <img src="{% static 'images/work-i1.png' %}" alt="" />
+                </div>
+                <h5>Attendance<i class="fa fa-arrow-right"></i></h5>
+                <h5></h5>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div> {% endcomment %}
+
+
+
+
+    </div>
+  </div>
+</section>
+<!-- end work section -->
+
+{% include 'professor/footer.html' %} {% endblock main %}

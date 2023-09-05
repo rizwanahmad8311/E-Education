@@ -1,0 +1,118 @@
+{% extends 'professor/base.html' %} 
+{% load static %}
+{% block main %} 
+{%include 'professor/header.html' %}
+
+    <!-- Main Start -->
+    <div class="main">
+
+        <!-- Open Tasks Start -->
+        <div class="container">
+            <div class="table-content"></div>
+            <h1 class="my-3 text-center">My Courses</h1>
+
+            <div class="container ">
+                <table class="table table-responsive table-hover">
+                    <thead>
+                      <tr>
+                        <th class="col">Course Title</th>
+                        <th class="col">Batch no</th>
+                        <th class="col">Class</th>
+                        <th class="col">Section</th>
+                        <th class="col">Enrolled Students</th> 
+                        <th class="col">Upload Lectures</th> 
+                        <th class="col">View Lectures</th> 
+                        <th class="col">TimeTable</th> 
+                      </tr>
+                    </thead>
+                    <tbody>
+                          
+                      {% for course in mycourses %}
+                      <tr>
+                        <td>{{course.course_id.title}}</td>
+                        <td>{{course.class_id.batch}}</td>
+                        <td>{{course.class_id.title}}</td>
+                        <td>{{course.class_id.section}}</td>
+                        {% for i in enrollment %}
+                        {% if i.course_id.id == course.id %}
+                        <td>{{i.enrollment_count}}</td>
+                        {% endif %}
+                        {% endfor %}
+                        <td><button type="button" onclick="Course_id({{course.course_id.id}})" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">Upload</button></td>
+                        <td><a href="{% url 'prf-mycourse-lectures' course.course_id.id %}" type="button" class="btn btn-success btn-sm">View</a></td>
+                        <td><a href="{% url 'lecture-time' course.course_id.id %}" type="button" class="btn btn-primary btn-sm">Check</a></td>
+                        
+                      </tr>
+                      {% endfor %}
+
+                    </tbody>
+                  </table>
+
+            </div>
+
+
+
+        </div>
+
+        <!-- Open Tasks End -->
+        
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Upload Lectures</h1>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form method="POST" enctype='multipart/form-data'>
+              {% csrf_token %}
+              {{form.course_id}}
+              <input type="hidden" id="course_id" name="course_id" value="">
+              <div class="row">
+                <div class="col-12 p-1">
+                  <div class="mb-3 mx-3">
+                    {{form.title.label}}
+                    {{form.title}}
+                  </div>
+                  
+                  <div class="mb-3 mx-3">
+                    {{form.file.label}}
+                    {{form.file}}
+                  </div>
+              
+              
+
+                </div>
+                
+              </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+                  
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function Course_id(course_id){
+      document.getElementById('course_id').value  = course_id
+
+      const elements = document.getElementsByTagName("option");
+
+
+      for (const element of elements) {
+        if (element.value === course_id.toString()) {
+          element.selected = true; // Output: <input type="text" value="2"
+          break; // If you want to stop searching after finding the first matching element
+        }
+      }
+
+    }
+  </script>
+
+
+{% include 'professor/footer.html' %} {% endblock main %}

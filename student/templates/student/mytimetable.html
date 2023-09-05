@@ -1,0 +1,59 @@
+{% extends 'student/base.html' %}
+{% load static %}
+{% block main %}
+
+
+{% include 'student/header.html' %}
+
+
+    <!-- Main Start -->
+    <div class="main">
+
+        <!-- Open Tasks Start -->
+        <div class="container">
+            <div class="table-content"></div>
+            <h1 class="my-3 text-center">Time Table</h1>
+
+            <div class="container ">
+                <table class="table table-responsive table-hover">
+                    <thead>
+                      <tr>
+                        <th class="col">Course Title</th>
+                        <th class="col">Professor</th>
+                        <th class="col">Day</th>
+                        <th class="col">Start Time</th>
+                        <th class="col">End Time</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                          
+                      {% for enrollment in enrollments %}
+                      {% for timetable in timetable %}
+                      {% if timetable.assign_professor_id.id == enrollment.assign_professor_id.id %}
+                        <tr>
+                          <td>{{timetable.assign_professor_id.course_id}}</td>
+                          <td>{{timetable.assign_professor_id.prf_id.first_name}} {{timetable.assign_professor_id.prf_id.last_name}}</td>
+                          <td>{{timetable.day}}</td>
+                          <td>{{timetable.start_time}}</td>
+                          <td>{{timetable.end_time}}</td>
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
+                      {% endfor %}
+
+                    </tbody>
+                  </table>
+
+            </div>
+
+
+
+        </div>
+
+        <!-- Open Tasks End -->
+
+
+
+
+{% include 'student/footer.html' %}
+  {% endblock main %}

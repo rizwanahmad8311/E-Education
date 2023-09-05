@@ -1,0 +1,88 @@
+{% extends 'student/base.html' %}
+{% load static %}
+{% block formscss %}  <link href="{% static 'css/forms.css' %}" rel="stylesheet" />{% endblock formscss %}
+{% block main %}
+{% include 'student/header.html' %}
+
+   
+
+
+ 
+<center>
+<form  method="post" novalidate >
+  {% csrf_token %}
+  <div style="margin-top:5%;margin-bottom:5%;font-size:20px;">
+
+    <b><h1>Sign Up</h1></b>
+   </div>
+                    {% if success %}
+                    <div class="alert success">
+                        <span class="closebtn">&times;</span>  
+                        <h6>{{success}}</h6>
+                    </div>
+                    {% elif error %}
+                    <div class="alert">
+                        <span class="closebtn">&times;</span>  
+                        <h6>{{error}}</h6>
+                    </div>
+                    {% elif form.first_name.errors %}
+                    <div class="alert">
+                        <span class="closebtn">&times;</span>  
+                        <h6 style="text-decoration:none;">{{form.first_name.errors|striptags}}</h6>
+                    </div>
+                    {% elif form.last_name.errors %}
+                    <div class="alert">
+                        <span class="closebtn">&times;</span>  
+                        <h6>{{form.last_name.errors|striptags}}</h6>
+                    </div>
+                    {% elif form.email.errors %}
+                    <div class="alert">
+                        <span class="closebtn">&times;</span>  
+                        <h6>{{form.email.errors|striptags}}</h6>
+                    </div>
+                    {% elif form.username.errors %}
+                    <div class="alert">
+                        <span class="closebtn">&times;</span>  
+                        <h6>{{form.username.errors|striptags}}</h6>
+                    </div>
+                    {% elif form.password.errors %}
+                    <div class="alert">
+                        <span class="closebtn">&times;</span>  
+                        <h6>{{form.password.errors|striptags}}</h6>
+                    </div>
+                    {% endif %}
+  <div class="container">
+    {% for fields in form %}
+    
+    {{fields.label_tag}}
+    {{fields}}
+    {% endfor %}
+
+     
+    <button type="submit">Sign Up</button>
+     <center style="margin-top:20px;" >Already have an account? <b><a  href="{% url 'st-login' %}">Login here</a></b></center>
+
+
+  </div>
+  
+
+</form>
+</center>
+
+<script>
+  var close = document.getElementsByClassName("closebtn");
+  var i;
+  
+  for (i = 0; i < close.length; i++) {
+    close[i].onclick = function(){
+      var div = this.parentElement;
+      div.style.opacity = "0";
+      setTimeout(function(){ div.style.display = "none"; }, 600);
+    }
+  }
+  </script>
+
+   
+
+{% include 'student/footer.html' %}
+{% endblock main %}

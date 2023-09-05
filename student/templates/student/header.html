@@ -1,0 +1,162 @@
+{% load static %}
+<section id="header">
+    <a href="{% url 'home' %}">E-Education</a>
+    <div>
+        <ul id="navbar">
+          {% if logged %}
+          <div class="navextra">
+
+            <div class="row mx-2 mt-2">
+              <h6 class="title">Welcome!</h6>
+              <strong><h6 class="title" style="color:green;">&nbsp;{{user.first_name}} {{user.last_name}}</h6></strong> 
+            </div>
+          </div>
+          {% endif %}
+
+
+            {% if logged %}
+
+            {% if login %}
+            <li><a class="active" href="{% url 'home' %}">Home</a></li>
+            {% else %}
+            <li><a href="{% url 'home' %}">Home</a></li>
+            {% endif %}
+            {% if courses %}
+            <li><a class="active" href="{% url 'courses' %}">Courses</a></li>
+            {% else %}
+            <li><a href="{% url 'courses' %}">Courses</a></li>
+            {% endif %}
+            {% if myenrollments %}
+            <li><a class="active" href="{% url 'myenrollments' %}">My Enrollments</a></li>
+            {% else %}
+            <li><a href="{% url 'myenrollments' %}">My Enrollments</a></li>
+            {% endif %}
+            {% if mytimetable %}
+            <li><a class="active" href="{% url 'mytimetable' %}">My TimeTable</a></li>
+            {% else %}
+            <li><a href="{% url 'mytimetable' %}">My TimeTable</a></li>
+            {% endif %}
+            {% if contacts %}
+            <li><a class="active" href="{% url 'st-contacts' %}">Contacts</a></li>
+            {% else %}
+            <li><a href="{% url 'st-contacts' %}">Contacts</a></li>
+            {% endif %}
+            {% comment %} {% if myattendance %}
+            <li><a class="active" href="{% url 'home' %}">My Attendance</a></li>
+            {% else %}
+            <li><a href="{% url 'home' %}">My Attendance</a></li>
+            {% endif %}
+            {% if mytranscript %}
+            <li><a class="active" href="{% url 'home' %}">My Transcript</a></li>
+            {% else %}
+            <li><a href="{% url 'home' %}">My Transcript</a></li>
+            {% endif %} {% endcomment %}
+
+            {% else %}
+
+            {% if st %}
+            <li><a class="active" href="{% url 'st-login' %}">Student Login</a></li>
+            {% else %}
+            <li><a href="{% url 'st-login' %}">Student Login</a></li>
+            {% endif %}
+            {% if prf %}
+            <li><a class="active" href="{% url 'prf-login' %}">Professor Login</a></li>
+            {% else %}
+            <li><a href="{% url 'prf-login' %}">Professor Login</a></li>
+            {% endif %}
+            {% endif %}
+            
+            {% if logged %}
+            <li  class="navextra">
+              <a class="scroll-link" href="{% url 'st-myprofile' %}">My Profile</a>
+            </li>
+            {% comment %} <li  class="navextra">
+              <a class="scroll-link" href="{% url 'history' %}">My history</a>
+            </li> {% endcomment %}
+        <li  class="navextra"><a href="{% url 'st-logout' %}">Log Out</a></li>
+        {% else %}
+        <li><a href="{% url 'st-login' %}" class="navextra">Login</a></li>
+        {% endif %}
+        <div class="social navextra" style="margin-left: 10%;">
+          <h5 style="margin-left: 10%;margin-top:30px;">Connect with us</h5>
+
+          <li class="facebook navextra" style="padding: 0 5px!important;"><a href="#"><i class="fa fa-facebook-f"></i></a></li>
+          <li class="twitter navextra" style="padding: 0 5px!important;"><a href="#"><i class="fa fa-twitter"></i></a></li>
+          <li class="pinterest navextra" style="padding: 0 5px!important;"><a href="#"><i class="fa fa-pinterest"></i></a></li>
+          <li class="dribbble navextra" style="padding: 0 5px!important;"><a href="#"><i class="fa fa-dribbble"></i></a></li>
+        </div>
+        
+                <!-- Wrapper -->
+                <div class="wrapper" id="wrapper">
+
+		<!-- Sidebar -->
+		<nav class="sidebar">
+
+			<!-- close sidebar menu -->
+			<div class="dismiss">
+        <i class="fa fa-arrow-right"></i>
+			</div>
+      
+			<div class="logo">
+        <a href="{% url 'home' %}">E-Education</a>
+			</div>
+      {% if logged %}
+      <div class="row mx-2 mt-2">
+        <h6 class="title">Welcome!</h6>
+        <strong><h6 class="title" style="color:green;">&nbsp;{{user.first_name}} {{user.last_name}}</h6></strong> 
+      </div>
+      {% endif %}
+
+			<ul class="list-unstyled menu-elements">
+                {% if logged %}
+                <li style="margin-top:15px;">
+                    <a class="scroll-link" href="{% url 'st-myprofile' %}"><i class="fa fa-user">  My Profile</i></a>
+                </li>
+{% comment %} 
+                <li style="margin-top:15px;">
+                    <a class="scroll-link" href="{% url 'history' %}"><i class="fa fa-history">  My history</i></a>
+                </li> {% endcomment %}
+            <li style="margin-top:20px;" class="end"><a href="{% url 'st-logout' %}"><i class="fa fa-sign-out">  Log Out</i></a></li>
+            {% else %}
+            <li class="end"><a href="{% url 'st-login' %}"><i class="fa fa-sign-in">  Login</i></a></li>
+            {% endif %}
+            
+            <div class="social">
+              <li><h5 style="margin-top:30px;">Connect with us</h5></li><br>
+              <li class="facebook" style="padding: 0 5px!important;" ><a href="#" style="padding: 0 5px!important;"><i class="fa fa-facebook-f"></i></a></li>
+              <li class="twitter" style="padding: 0 5px!important;"><a href="#" style="padding: 0 5px!important;"><i class="fa fa-twitter"></i></a></li>
+              <li class="pinterest" style="padding: 0 5px!important;"><a href="#" style="padding: 0 5px!important;"><i class="fa fa-pinterest"></i></a></li>
+              <li class="dribbble" style="padding: 0 5px!important;"><a href="#" style="padding: 0 5px!important;"><i class="fa fa-dribbble"></i></a></li>
+            </div>
+
+
+			</ul>
+
+
+
+
+
+		</nav>
+		<!-- End sidebar -->
+
+
+
+			<!-- open sidebar menu -->
+			<a class="btn open-menu"href="#" role="button">
+
+				<i class="fa fa-outdent"></i> 
+			</a>
+
+
+
+
+
+	</div>
+	<!-- End wrapper -->
+            <a href="#" id="close"><i class="fa fa-arrow-right"></i></a>
+        </ul>
+    </div>
+    <div id="mobile">
+        <i id="bar" class="fa fa-outdent"></i>
+    </div>
+</section>

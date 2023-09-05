@@ -1,0 +1,51 @@
+{% extends 'professor/base.html' %} 
+{% load static %}
+{% block main %} 
+{%include 'professor/header.html' %}
+
+    <!-- Main Start -->
+    <div class="main">
+
+        <!-- Open Tasks Start -->
+        <div class="container">
+            <div class="table-content"></div>
+            <h1 class="my-3 text-center">My Course Lectures</h1>
+
+            <div class="container ">
+                <table class="table table-responsive table-hover">
+                    <thead>
+                      <tr>
+                        <th class="col">Course Title</th>
+                        <th class="col">Lecture Title</th>
+                        <th class="col">Option</th> 
+                      </tr>
+                    </thead>
+                    <tbody>
+                          
+                      {% for my_course_lecture in my_course_lectures %}
+                      <tr>
+                        <td>{{my_course_lecture.course_id}}</td>
+                        <td>{{my_course_lecture.title}}</td>
+
+                        <td><a type="button" class="btn btn-danger btn-sm" href="{% url 'prf-delete-course-lecture' my_course_lecture.course_id.id my_course_lecture.id %}">Delete</a></td>
+                        
+                      </tr>
+                      {% endfor %}
+
+                    </tbody>
+                  </table>
+
+            </div>
+
+
+
+        </div>
+
+        <!-- Open Tasks End -->
+        
+
+
+
+
+
+{% include 'professor/footer.html' %} {% endblock main %}

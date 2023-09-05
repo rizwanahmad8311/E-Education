@@ -1,0 +1,70 @@
+{% extends 'student/base.html' %}
+{% load static %}
+{% block main %}
+
+
+{% include 'student/header.html' %}
+
+
+    <!-- Main Start -->
+    <div class="main">
+
+        <!-- Open Tasks Start -->
+        <div class="container">
+            <div class="table-content"></div>
+            <h1 class="my-3 text-center">Courses</h1>
+
+            <div class="container ">
+                <table class="table table-responsive table-hover">
+                    <thead>
+                      <tr>
+                        <th class="col">Course Title</th>
+                        <th class="col">Professor</th>
+                        <th class="col">Batch no</th>
+                        <th class="col">Class</th>
+                        <th class="col">Section</th>
+                        <th class="col">Status</th> 
+                      </tr>
+                    </thead>
+                    <tbody>
+                          
+                      {% for course in courses_list %}
+                      <tr>
+                        <td>{{course.course_id.title}}</td>
+                        <td>{{course.prf_id.first_name}} {{course.prf_id.last_name}}</td>
+                        <td>{{course.class_id.batch}}</td>
+                        <td>{{course.class_id.title}}</td>
+                        <td>{{course.class_id.section}}</td>
+
+
+                        {% if course.course_id.id in my_courses %}
+                        {% for enrollment in enrollments %}
+                        {% if enrollment.assign_professor_id.course_id.id == course.course_id.id and enrollment.assign_professor_id.prf_id.id == course.prf_id.id and enrollment.status == True and enrollment.stu_id.id == request.user.id %}
+                        <td><p class="badge badge-success">Enrolled</p></td>
+                        {% elif enrollment.assign_professor_id.course_id.id == course.course_id.id and enrollment.assign_professor_id.prf_id.id == course.prf_id.id and enrollment.status == False and enrollment.stu_id.id == request.user.id %}                        
+                        <td><p class="badge badge-warning">Applied</p></td>
+                        {% endif %}
+                        {% endfor %}
+                        {% else %}
+                        <td><a href="{% url 'st-courses-apply' course.id %}" type="button" class="btn btn-primary btn-sm">Apply</a></td>
+                        {% endif %}
+
+                          </tr>
+                      {% endfor %}
+
+                    </tbody>
+                  </table>
+
+            </div>
+
+
+
+        </div>
+
+        <!-- Open Tasks End -->
+        
+
+
+
+{% include 'student/footer.html' %}
+  {% endblock main %}
