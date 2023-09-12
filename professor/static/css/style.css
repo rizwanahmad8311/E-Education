@@ -662,6 +662,9 @@ a:focus {
   font-size: 15px;
   line-height: 24px;
   color: #fff;
+  /* position: absolute; */
+  bottom: 0;
+  width: 100%;
 }
 
 .site-footer hr {
@@ -741,6 +744,7 @@ a:focus {
 @media (max-width: 767px) {
   .site-footer {
     padding-bottom: 0;
+    
   }
 
   .site-footer .copyright-text,

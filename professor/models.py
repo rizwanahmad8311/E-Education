@@ -58,7 +58,7 @@ class Forgot_Password(models.Model):
 
 
 class AssignProfessor(models.Model):
-    prf_id = models.ForeignKey(User,on_delete=models.CASCADE)
+    prf_id = models.ForeignKey(User,on_delete=models.CASCADE,limit_choices_to={'groups__name': 'Professors'})
     class_id = models.ForeignKey(Class,on_delete=models.CASCADE)
     course_id = models.ForeignKey(Course, on_delete=models.CASCADE)
     status = models.BooleanField(default=True)

@@ -294,7 +294,8 @@ def myenrollments(request):
 def contacts(request):
     if request.method == 'GET':
         user_db = User.objects.get(pk=request.user.id)
-        contacts = IsProfessor.objects.filter(is_professor=True,account_status=True)
+        # contacts = IsProfessor.objects.filter(is_professor=True,account_status=True)
+        contacts = Enrollment.objects.filter(stu_id=user_db)
         data = {
             'user': user_db,
             'contacts': True,
@@ -350,3 +351,4 @@ def mytimetable(request):
         return render(request,'student/mytimetable.html',data)
     else:
         return redirect('st-login')
+

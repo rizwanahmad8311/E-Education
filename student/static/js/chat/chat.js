@@ -38,6 +38,7 @@ var ws = new WebSocket(
         const currentUser = JSON.parse(document.getElementById('user_name').textContent);
         const first_name = JSON.parse(document.getElementById('first_name').textContent);
         const last_name = JSON.parse(document.getElementById('last_name').textContent);
+        console.log(first_name);
         var date = new Date();
         var hours = date.getHours();
         var hours = date.getHours();
@@ -51,20 +52,22 @@ var ws = new WebSocket(
         
         var strDate = (date.toLocaleString('en-US', { month: 'long' })).slice(0, 3)+'. '  + date.getDate()+', ' + date.getFullYear() + ', '
         if (data.user==currentUser){
-
+            // console.log(first_name);
+            
             // let userHtml = '<p class="userText"><span>' + data.msg  + '</span></p>';
 
             let userHtml ='<div class="media media-chat media-chat-reverse">'+
-                        '<div class="media-body">'+
-                        '<p> <span class="text-dark"><u>'+ first_name + ' ' + last_name +'</u></span> <br>'+ data.msg +'</p>'+
-                            '<p class="meta text-dark"><time datetime="2018">'+ strDate + strTime+ '</time></p>'+
-                        '</div>'+
-                    '</div>'
-
+            '<div class="media-body">'+
+            '<p> <span class="text-dark"><u>'+ first_name + ' ' + last_name +'</u></span> <br>'+ data.msg +'</p>'+
+            '<p class="meta text-dark"><time datetime="2018">'+ strDate + strTime+ '</time></p>'+
+            '</div>'+
+            '</div>'
+            
             $("#chat-content").append(userHtml);
             scrollToBottom();
-
+            
         }else{
+            // console.log(first_name);
             let userHtml ='<div class="media media-chat">'+
             '<div class="media-body">'+
             '<p> <span class="text-dark"><u>'+ first_name + ' ' + last_name +'</u></span> <br>'+ data.msg +'</p>'+

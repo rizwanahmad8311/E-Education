@@ -8,6 +8,17 @@ from django.contrib.auth.hashers import make_password
 import uuid
 from django.contrib.auth.decorators import login_required
 from student.models import IsStudent,Group,Chat
+from django.contrib.auth.models import Group as mainGroup
+
+def get_or_create_group(group_name):
+    try:
+        group = mainGroup.objects.get(name=group_name)
+    except mainGroup.DoesNotExist:
+        # If the group doesn't exist, create it
+        group = mainGroup.objects.create(name=group_name)
+    
+    return group.id
+
 
 class SignUp_View(View):
     def get(self, request):
@@ -35,6 +46,8 @@ class SignUp_View(View):
                         frm = form.save(commit=False)
                         frm.password = hashed_password
                         frm.save()
+                        group_id = get_or_create_group('Professors')
+                        frm.groups.add(group_id)
                         is_professor = IsProfessor(
                             prf_id=frm, is_professor=True)
                         is_professor.save()
@@ -348,9 +361,7 @@ def take_attendance(request,cid):
 def contacts(request):
     if request.method == 'GET':
         user_db = User.objects.get(pk=request.user.id)
-        contacts = IsStudent.objects.filter(is_student=True,account_status=True)
-        print(user_db)
-        print(contacts)
+        contacts = Enrollment.objects.filter(assign_professor_id__prf_id=user_db)
         data = {
             'user': user_db,
             'contacts': True,
@@ -439,4 +450,5 @@ def delete_lecture_time(request,cid,lid):
         return redirect('lecture-time', cid)
     else:
         return redirect('prf-login')
+
   
