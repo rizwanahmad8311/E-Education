@@ -46,9 +46,28 @@
 
 <body >
 
+  <div class="site-wrapper">
 
+    <!-- Site header -->
+    <header class="site-header">
+      <!-- Your header content -->
+      {% include 'professor/header.html' %}
+  </header>
 
-    {% block main %}{% endblock main %}
+          <!-- Content -->
+<div class="site-content">
+  <!-- Your main content here -->
+  {% block main %}{% endblock main %}
+</div>
+
+      <!-- Site footer -->
+      <footer class="site-footer">
+        <!-- Your footer content -->
+        {% include 'professor/footer.html' %}
+    </footer>
+
+</div>
+
 
          
         {% comment %} <script type="text/javascript" src="{% static 'js/jquery-3.4.1.min.js' %}"></script> {% endcomment %}

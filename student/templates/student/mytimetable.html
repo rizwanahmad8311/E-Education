@@ -3,7 +3,7 @@
 {% block main %}
 
 
-{% include 'student/header.html' %}
+
 
 
     <!-- Main Start -->
@@ -13,6 +13,8 @@
         <div class="container">
             <div class="table-content"></div>
             <h1 class="my-3 text-center">Time Table</h1>
+
+            {% if enrollments %}
 
             <div class="container ">
                 <table class="table table-responsive table-hover">
@@ -45,9 +47,15 @@
                   </table>
 
             </div>
+            {% else %}
+
+            <div>
+              <center><h2 class="text-danger my-5">Enroll Course First to see TimeTable</h2></center>
+            </div>
+            {% endif %}
 
 
-
+        </div>
         </div>
 
         <!-- Open Tasks End -->
@@ -55,5 +63,4 @@
 
 
 
-{% include 'student/footer.html' %}
   {% endblock main %}

@@ -3,7 +3,7 @@
 {% block main %}
 
 
-{% include 'student/header.html' %}
+
 
 
     <!-- Main Start -->
@@ -13,7 +13,8 @@
         <div class="container">
             <div class="table-content"></div>
             <h1 class="my-3 text-center">Courses</h1>
-
+            {% if courses_list %}
+            
             <div class="container ">
                 <table class="table table-responsive table-hover">
                     <thead>
@@ -35,7 +36,7 @@
                         <td>{{course.class_id.batch}}</td>
                         <td>{{course.class_id.title}}</td>
                         <td>{{course.class_id.section}}</td>
-
+                        
 
                         {% if course.course_id.id in my_courses %}
                         {% for enrollment in enrollments %}
@@ -50,21 +51,28 @@
                         {% endif %}
 
                           </tr>
-                      {% endfor %}
-
+                          {% endfor %}
+                          
                     </tbody>
                   </table>
+                  
+                </div>
+                {% else %}
 
-            </div>
+                <div>
+                  <center><h2 class="text-danger my-5">No Active Courses to show</h2></center>
+                </div>
+                {% endif %}
+
+                
 
 
-
-        </div>
+              </div>
+              </div>
 
         <!-- Open Tasks End -->
         
 
 
 
-{% include 'student/footer.html' %}
   {% endblock main %}

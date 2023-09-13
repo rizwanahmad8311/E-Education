@@ -2,7 +2,6 @@
 {% load static %}
 {% block formscss %}  <link href="{% static 'css/forms.css' %}" rel="stylesheet" />{% endblock formscss %}
 {% block main %}
-{% include 'student/header.html' %}
 
 <center>
 <form  method="post" novalidate>
@@ -55,5 +54,4 @@
   </script>
    
 
-{% include 'student/footer.html' %}
 {% endblock main %}

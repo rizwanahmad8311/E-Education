@@ -1,7 +1,7 @@
 {% extends 'professor/base.html' %} 
 {% load static %}
 {% block main %} 
-{%include 'professor/header.html' %}
+
 
     <!-- Main Start -->
     <div class="main">
@@ -10,6 +10,7 @@
         <div class="container">
             <div class="table-content"></div>
             <h1 class="my-3 text-center">My Courses</h1>
+            {% if mycourses %}
 
             <div class="container ">
                 <table class="table table-responsive table-hover">
@@ -52,7 +53,6 @@
 
 
 
-        </div>
 
         <!-- Open Tasks End -->
         
@@ -96,6 +96,13 @@
       </div>
     </div>
   </div>
+  {% else %}
+  <div>
+    <center><h2 class="text-danger my-5">No Courses to show</h2></center>
+  </div>
+  {% endif %}
+  </div>
+  </div>
 
   <script>
     function Course_id(course_id){
@@ -115,4 +122,4 @@
   </script>
 
 
-{% include 'professor/footer.html' %} {% endblock main %}
+ {% endblock main %}
