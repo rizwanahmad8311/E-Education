@@ -22,6 +22,11 @@
 
             
 
+            {% if addcourse  %}
+            <li><a class="active" href="{% url 'add-course' %}"> Add Course </a></li>
+            {% else %}
+            <li><a href="{% url 'add-course' %}"> Add Course </a></li>
+            {% endif %}
             {% if courses  %}
             <li><a class="active" href="{% url 'prf-mycourses' %}"> My Courses </a></li>
             {% else %}

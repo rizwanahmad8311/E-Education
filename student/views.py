@@ -3,7 +3,7 @@ from . import forms
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.views import View
-from .models import IsStudent,Group,Chat
+from .models import IsStudent,Group,Chat, Progress
 from professor.models import AssignProfessor, Enrollment, Course_media,Forgot_Password, IsProfessor, TimeTable
 from django.contrib.auth.hashers import make_password
 import uuid
@@ -259,35 +259,49 @@ def myenrollments(request):
         user_db = User.objects.get(pk=request.user.id)
         enrollments = Enrollment.objects.filter(stu_id=user_db)
         course_media = Course_media.objects.all()
+        progress = Progress.objects.filter(user=user_db)
+
+        li_lectures = []
+        for en in enrollments:
+            count = 0
+            for i in course_media:
+                if en.assign_professor_id.course_id.id == i.course_id.id:
+                    print(i)
+                    count+=1
+            data = {
+                "count":count,
+                "course":en,
+                }
+            li_lectures.append(data)
+
+        li_progress = []
+        for en in enrollments:
+            count = 0
+            for i in progress:
+                if en.assign_professor_id.course_id.id == i.course_media.course_id.id:
+                    count+=1
+                data = {
+                    "count":count,
+                    "course":en,
+                    }
+            li_progress.append(data)
+        print(li_lectures)
+        print(li_progress)
         data = {
             'user': user_db,
             'myenrollments': True,
             'pgname': 'My Enrollments',
             'logged': True,
             'enrollments':enrollments,
-            'course_media':course_media
+            'course_media':course_media,
+            'progress':progress,
+            "total_lectures" : li_lectures,
+            "total_progress" : li_progress,
         }
         return render(request,'student/myenrollments.html',data)
     else:
         return redirect('st-login')
 
-
-# def myattendance(request):
-#     if request.user.is_authenticated:
-#         user_db = User.objects.get(pk=request.user.id)
-#         enrollments = Enrollment.objects.filter(stu_id=user_db)
-#         course_media = Course_media.objects.all()
-#         data = {
-#             'user': user_db,
-#             'myattendance': True,
-#             'pgname': 'My Attendance',
-#             'logged': True,
-#             'enrollments':enrollments,
-#             'course_media':course_media
-#         }
-#         return render(request,'student/myattendance.html',data)
-#     else:
-#         return redirect('st-login')
 
 
 @login_required(login_url="/signin/")
@@ -352,3 +366,20 @@ def mytimetable(request):
     else:
         return redirect('st-login')
 
+
+def progress(request,cmid):
+    user_db = User.objects.get(pk=request.user.id)
+    cmid = Course_media.objects.get(pk=cmid)
+    try:
+        Progress.objects.get(user=user_db,course_media=cmid)
+        Progress.objects.filter(user=user_db,course_media=cmid).update(downloaded=True)
+        return redirect('myenrollments')
+    except:
+        progress = Progress(user=user_db,course_media=cmid,downloaded=True)
+        progress.save()
+        return redirect('myenrollments')
+    
+def unmark_progress(request,id):
+    user_db = User.objects.get(pk=request.user.id)
+    Progress.objects.filter(user=user_db,pk=id).update(downloaded=False)
+    return redirect('myenrollments')

@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
-from .models import Course_media,  Enrollment, TimeTable
+from .models import Course_media,  Enrollment, TimeTable, Course,Class
 
 
 class SignUpForm(forms.ModelForm):
@@ -80,4 +80,44 @@ class TimeTableForm(forms.ModelForm):
             'day': forms.Select(attrs={'class':'form-control'}),
             'start_time': forms.TimeInput(attrs={'type': 'time','class':'form-control'}),
             'end_time': forms.TimeInput(attrs={'type': 'time','class':'form-control'})
+        }
+
+
+class AddCourseForm(forms.ModelForm):
+    class Meta:
+        model = Course
+        fields = ['course_title']
+        widgets = {
+            'course_title': forms.Select(attrs={'class':'form-control'}),
+        }
+        error_messages = {
+            'course_title':{
+                'required':'Course Title is required.'
+            }
+        }
+
+class AddClassForm(forms.ModelForm):
+    # title = forms.CharField(widget=forms.TextInput(attrs={'autofocus': True,'class':'form-control '}),error_messages={'required':'Title is required.',})
+    class Meta:
+        model = Class
+        fields = ['class_title','section','batch','session']
+        widgets = {
+            'class_title': forms.Select(attrs={'class':'form-control'}),
+            'section': forms.Select(attrs={'class':'form-control'}),
+            'batch': forms.Select(attrs={'class':'form-control'}),
+            'session': forms.Select(attrs={'class':'form-control'}),
+        }
+        error_messages = {
+            'class_title':{
+                'required':'Class Title is required.'
+            },
+            'section':{
+                'required':'Section is required.'
+            },
+            'batch':{
+                'required':'Batch is required.'
+            },
+            'session':{
+                'required':'Session is required.'
+            }
         }

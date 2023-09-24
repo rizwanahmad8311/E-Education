@@ -9,18 +9,18 @@ class IsProfessor(models.Model):
 
 class Class(models.Model):
     TITLE_CHOICES = (
-        ('IT', 'Information Technology'),
-        ('SE', 'Software Engineering'),
-        ('CS', 'Computer Science'),
-        ('CE', 'Computer Engineering'),
+        ('Information Technology', 'Information Technology'),
+        ('Software Engineering', 'Software Engineering'),
+        ('Computer Science', 'Computer Science'),
+        ('Computer Engineering', 'Computer Engineering'),
     )
-    title = models.CharField(max_length=20,choices=TITLE_CHOICES)
+    class_title = models.CharField(max_length=200,choices=TITLE_CHOICES)
     SECTION_CHOICES = (
         ('A', 'A'),
         ('B', 'B'),
         ('C', 'C'),
     )
-    section = models.CharField(max_length=20,choices=SECTION_CHOICES)
+    section = models.CharField(max_length=200,choices=SECTION_CHOICES)
     BATCH_CHOICES = (
         ('2019', '2019'),
         ('2020', '2020'),
@@ -29,7 +29,7 @@ class Class(models.Model):
         ('2023', '2023'),
         ('2024', '2024'),
     )
-    batch = models.CharField(max_length=20,choices=BATCH_CHOICES)
+    batch = models.CharField(max_length=200,choices=BATCH_CHOICES)
     SESSION_CHOICES = (
         ('Spring', 'Spring'),
         ('Fall', 'Fall'),
@@ -37,7 +37,7 @@ class Class(models.Model):
     session = models.CharField(max_length=20,choices=SESSION_CHOICES)
 
     def __str__(self):
-        return self.title
+        return self.class_title
     
 
 class Course(models.Model):
@@ -46,10 +46,10 @@ class Course(models.Model):
         ('Islamic Studies', 'Islamic Studies'),
         ('Software Engineering', 'Software Engineering'),
     )
-    title = models.CharField(max_length=100,choices=COURSE_CHOICES)
+    course_title = models.CharField(max_length=100,choices=COURSE_CHOICES)
 
     def __str__(self):
-        return self.title
+        return self.course_title
     
 
 class Forgot_Password(models.Model):
@@ -64,7 +64,7 @@ class AssignProfessor(models.Model):
     status = models.BooleanField(default=True)
 
     def __str__(self):
-        return f"{self.course_id.title}------{self.prf_id.first_name}  {self.prf_id.last_name}"
+        return f"{self.course_id.course_title}------{self.prf_id.first_name}  {self.prf_id.last_name}"
     
 
 class Course_media(models.Model):

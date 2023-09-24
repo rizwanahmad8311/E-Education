@@ -12,6 +12,8 @@ urlpatterns = [
     path('courses/apply/<str:id>/', views.apply_enrollment ,name="st-courses-apply"),
     path('myenrollments/', views.myenrollments ,name="myenrollments"),
     path('mytimetable/', views.mytimetable ,name="mytimetable"),
+    path('progress/<int:cmid>/', views.progress ,name="myprogress"),
+    path('unmark-progress/<int:id>/', views.unmark_progress ,name="unmark-myprogress"),
     # path('myattendance/', views.myattendance ,name="myattendance"),
     path('logout/', views.user_logout ,name="st-logout"),
 

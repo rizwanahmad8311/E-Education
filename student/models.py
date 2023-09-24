@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from professor.models import Course_media
 # Create your models here.
 
 class IsStudent(models.Model):
@@ -21,3 +22,9 @@ class Group(models.Model):
     def __str__(self):
         return self.name
 
+
+class Progress(models.Model):
+    user = models.ForeignKey(User , on_delete=models.CASCADE)
+    course_media = models.ForeignKey(Course_media , on_delete=models.CASCADE)
+    downloaded = models.BooleanField(default=False)
+    downloaded_date = models.DateTimeField(auto_now_add=True)

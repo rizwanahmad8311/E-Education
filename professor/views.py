@@ -452,3 +452,52 @@ def delete_lecture_time(request,cid,lid):
         return redirect('prf-login')
 
   
+def add_course(request):
+    if request.user.is_authenticated and request.method == "POST":
+        user_db = User.objects.get(pk=request.user.id)
+        add_course_form = forms.AddCourseForm(request.POST)
+        add_class_form = forms.AddClassForm(request.POST)
+        if add_course_form.is_valid() and add_class_form.is_valid():
+            course_instance = add_course_form.save()
+            class_instance = add_class_form.save()
+            assign_professor = AssignProfessor(prf_id=user_db,class_id=class_instance,course_id=course_instance)
+            assign_professor.save()
+            data = {
+                'user': user_db,
+                'addcourse': True,
+                'pgname': 'Add Course',
+                'logged': True,
+                "add_course_form":forms.AddCourseForm(),
+                "add_class_form":forms.AddClassForm(),
+                "success":"Course Added Successfully",
+            }
+            return render(request,'professor/add_course.html',data)
+        else:
+            data = {
+                'user': user_db,
+                'addcourse': True,
+                'pgname': 'Add Course',
+                'logged': True,
+                "add_course_form":forms.AddCourseForm(),
+                "add_class_form":forms.AddClassForm(),
+                "course_error":add_course_form.errors,
+                "class_error":add_class_form.errors
+            }
+            return render(request,'professor/add_course.html',data)
+
+    else:
+        if request.user.is_authenticated:
+            user_db = User.objects.get(pk=request.user.id)
+            add_course_form = forms.AddCourseForm()
+            add_class_form = forms.AddClassForm()
+            data = {
+                'user': user_db,
+                'addcourse': True,
+                'pgname': 'Add Course',
+                'logged': True,
+                "add_course_form":add_course_form,
+                "add_class_form":add_class_form,
+            }
+            return render(request,'professor/add_course.html',data)
+        else:
+            return redirect('prf-login')

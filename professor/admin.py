@@ -13,11 +13,11 @@ class Forgot_PasswordAdmin(admin.ModelAdmin):
 
 @admin.register(Class)
 class ClassAdmin(admin.ModelAdmin):
-    list_display = ['id','title','section','batch','session']
+    list_display = ['id','class_title','section','batch','session']
 
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
-    list_display = ['id','title']
+    list_display = ['id','course_title']
 
 @admin.register(AssignProfessor)
 class AssignProfessorAdmin(admin.ModelAdmin):

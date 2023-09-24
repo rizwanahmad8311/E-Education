@@ -1,5 +1,6 @@
 {% extends 'student/base.html' %}
 {% load static %}
+{% load custom_tags %}
 {% block main %}
 
 
@@ -25,6 +26,8 @@
                         <th class="col">Class</th>
                         <th class="col">Section</th>
                         <th class="col">Status</th> 
+                        <th class="col">Progress</th> 
+                        <th class="col">Action</th> 
                       </tr>
                     </thead>
                     <tbody>
@@ -36,12 +39,36 @@
                         <td>{{enrollment.assign_professor_id.class_id.batch}}</td>
                         <td>{{enrollment.assign_professor_id.class_id.title}}</td>
                         <td>{{enrollment.assign_professor_id.class_id.section}}</td>
-
                         
                         
-
+                        
+                        
                         {% if enrollment.status == True %}
                         <td><p class="badge badge-success">Enrolled</p></td>
+                        {% if progress %}
+                        {% for pro in total_progress  %}
+                        {% for lectures in total_lectures %}
+                        {% if lectures.course.course_id.id == pro.course_media.course_id.id %}
+                        
+                        <td><div class="progress">
+                          <div class="progress-bar progress-bar-success progress-bar-striped text-dark bg-success" role="progressbar" aria-valuenow="{{forloop.counter|percentage:lectures.count}}0"
+                          aria-valuemin="0" aria-valuemax="100" style="width:{{forloop.counter|percentage:lectures.count}}%">
+                          {{forloop.counter|percentage:lectures.count}}% Completed
+                          </div>
+                        </div></td>
+                        
+
+                        {% endif %}
+                        {% endfor %}
+                        {% endfor %}
+                        {% else %}
+                        <td><div class="progress">
+                          <div class="progress-bar progress-bar-warning progress-bar-striped text-dark bg-success" role="progressbar" aria-valuenow="0"
+                          aria-valuemin="0" aria-valuemax="100" style="width:0%">
+                            0% Completed
+                          </div>
+                        </div></td>
+                        {% endif %}
                         <td><button type="button" onclick="Course_id({{enrollment.assign_professor_id.course_id.id}},{{enrollment.assign_professor_id.prf_id.id}},)" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">View</button></td>
                         {% else %}                        
                         <td><p class="badge badge-warning">Applied</p></td>
@@ -56,16 +83,16 @@
 
             </div>
 
-            
+        </div>
 
-
+    </div>
         
 
         <!-- Open Tasks End -->
         
           <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+    <div class="modal-dialog modal-xl">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -86,6 +113,7 @@
                             <th class="col">Lecture Title</th>
                             <th class="col">Created At</th>
                             <th class="col">Lecture</th> 
+                            <th class="col">Progress</th> 
                           </tr>
                         </thead>
                         <tbody id="lecture-table-body">
@@ -94,9 +122,19 @@
                                     <td>{{ lectures.course_id }}</td>
                                     <td>{{ lectures.title }}</td>
                                     <td>{{ lectures.created_at }}</td>
-                                    <td><a type="button" download="" class="btn btn-success" href="{{ lectures.file.url }}">Download</a></td>
+                                    <td><a type="button" download="" class="btn btn-info"  onclick="progress({{lectures.id}})" href="{{ lectures.file.url }}">Download</a></td>
+                                    {% if progress %}
+                                    {% for progress in progress %}
+                                    {% if progress.course_media.id == lectures.id  %}
+                                    <td><span class="badge badge-success" >Completed</span></td>
+                                    {% endif %}
+                                    {% endfor %}
+                                    {% else %}
+                                    <td><span class="badge badge-danger" >Uncompleted</span></td>
+                                    {% endif %}
                                 </tr>
                             {% endfor %}
+
                         </tbody>
                       </table>
     
@@ -105,6 +143,7 @@
     
     
             </div>
+            
               
               
 
@@ -123,8 +162,8 @@
     <center><h2 class="text-danger my-5">No Active Enrollment to show</h2></center>
   </div>
   {% endif %}
-</div>
-</div>
+
+
 
   <script>
     function Course_id(course_id,prf_id){
@@ -141,6 +180,10 @@
               row.style.display = 'none';
           }
       }
+    }
+    function progress(pid){
+      const url = `http://127.0.0.1:8000/st/progress/${pid}/`;
+      window.location.href = url;
     }
   </script>
 

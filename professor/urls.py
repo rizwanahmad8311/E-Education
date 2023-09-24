@@ -9,6 +9,7 @@ urlpatterns = [
     path('forgot-password/', views.Forgot_Password_View.as_view() ,name="prf-forgot-password"),
     path('forgot-password/<uuid>/', views.Forgot_Link_View.as_view() ,name="prf-forgotlink"),
     path('my-profile/', views.my_profile ,name="prf-myprofile"),
+    path('add-course/', views.add_course ,name="add-course"),
     path('my-courses/', views.My_Courses_View.as_view() ,name="prf-mycourses"),
     path('my-course-lectures/<str:cid>', views.my_course_lectures ,name="prf-mycourse-lectures"),
     path('delete-course-lecture/<str:cid>/<str:lecture_id>', views.delete_course_lecture ,name="prf-delete-course-lecture"),

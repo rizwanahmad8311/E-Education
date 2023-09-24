@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import IsStudent, Chat, Group
+from .models import IsStudent, Chat, Group, Progress
 
 admin.site.site_header = "E-Education ADMIN"
 admin.site.site_title = "E-Education ADMIN PORTAL"
@@ -21,6 +21,9 @@ class GroupAdmin(admin.ModelAdmin):
     def participants_group(self,obj):
         return ", ".join([participant.username for participant in obj.participants.all()])
 
+@admin.register(Progress)
+class ProgressAdmin(admin.ModelAdmin):
+    list_display = ['id','user','course_media','downloaded','downloaded_date']
 
 
 
