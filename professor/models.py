@@ -37,7 +37,7 @@ class Class(models.Model):
     session = models.CharField(max_length=20,choices=SESSION_CHOICES)
 
     def __str__(self):
-        return self.class_title
+        return self.class_title +" ------- "+ str(self.id)
     
 
 class Course(models.Model):

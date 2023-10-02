@@ -171,6 +171,19 @@ class Forgot_Link_View(View):
 
 def my_profile(request):
     user_data = User.objects.get(pk=request.user.id)
+    if request.method == 'GET':
+        form = forms.ProfileUpdateForm(instance=user_data)
+        data = {
+            'user': user_data,
+            'myprofile': True,
+            'pgname': 'My Profile',
+            'logged': True,
+            'form': form,
+        }
+    return render(request, 'student/myprofile.html', data)
+
+def my_profile_edit(request):
+    user_data = User.objects.get(pk=request.user.id)
     if request.method == 'POST':
         form = forms.ProfileUpdateForm(request.POST, instance=user_data)
         if form.is_valid():
@@ -184,7 +197,17 @@ def my_profile(request):
                 'form': form,
                 'success': 'Profile has been updated',
             }
-            return render(request, 'student/myprofile.html', data)
+            return render(request, 'student/myprofileedit.html', data)
+        else:
+            data = {
+                'user': user_data,
+                'myprofile': True,
+                'pgname': 'My Profile',
+                'logged': True,
+                'form': form,
+                'error': 'A user with that username already exists.',
+            }
+            return render(request, 'student/myprofileedit.html', data)
     else:
         form = forms.ProfileUpdateForm(instance=user_data)
         data = {
@@ -194,7 +217,7 @@ def my_profile(request):
             'logged': True,
             'form': form,
         }
-    return render(request, 'student/myprofile.html', data)
+    return render(request, 'student/myprofileedit.html', data)
 
 
 def user_logout(request):
@@ -266,7 +289,6 @@ def myenrollments(request):
             count = 0
             for i in course_media:
                 if en.assign_professor_id.course_id.id == i.course_id.id:
-                    print(i)
                     count+=1
             data = {
                 "count":count,
@@ -285,8 +307,17 @@ def myenrollments(request):
                     "course":en,
                     }
             li_progress.append(data)
-        print(li_lectures)
-        print(li_progress)
+        final_li = []
+        for i in li_progress:
+            for j in li_lectures:
+                if i["course"] == j["course"]:
+                    data = {
+                    "progress_count":i["count"],
+                    "lecture_count":j["count"],
+                    "course":i["course"],
+                    }
+                    final_li.append(data)
+        print(final_li)
         data = {
             'user': user_db,
             'myenrollments': True,
@@ -295,8 +326,7 @@ def myenrollments(request):
             'enrollments':enrollments,
             'course_media':course_media,
             'progress':progress,
-            "total_lectures" : li_lectures,
-            "total_progress" : li_progress,
+            "final_progress" : final_li,
         }
         return render(request,'student/myenrollments.html',data)
     else:

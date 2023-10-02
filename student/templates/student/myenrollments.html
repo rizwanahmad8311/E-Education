@@ -34,10 +34,10 @@
                       
                       {% for enrollment in enrollments %}
                       <tr>
-                        <td>{{enrollment.assign_professor_id.course_id}}</td>
+                        <td>{{enrollment.assign_professor_id.course_id.course_title}}</td>
                         <td>{{enrollment.assign_professor_id.prf_id.first_name}} {{enrollment.assign_professor_id.prf_id.last_name}}</td>
                         <td>{{enrollment.assign_professor_id.class_id.batch}}</td>
-                        <td>{{enrollment.assign_professor_id.class_id.title}}</td>
+                        <td>{{enrollment.assign_professor_id.class_id.class_title}}</td>
                         <td>{{enrollment.assign_professor_id.class_id.section}}</td>
                         
                         
@@ -45,21 +45,23 @@
                         
                         {% if enrollment.status == True %}
                         <td><p class="badge badge-success">Enrolled</p></td>
+                        {% comment %} 1:{{progress.0.course_media.course_id}} <br>
+                        2:{{total_progress.0.course.assign_professor_id.course_id}} <br>
+                        3:{{total_lectures}} <br> {% endcomment %}
                         {% if progress %}
-                        {% for pro in total_progress  %}
-                        {% for lectures in total_lectures %}
-                        {% if lectures.course.course_id.id == pro.course_media.course_id.id %}
+                        {% for pro in final_progress  %}
+                        {% if enrollment.assign_professor_id.course_id.id == pro.course.assign_professor_id.course_id.id %}
+                        {{pro.progress}}
                         
                         <td><div class="progress">
-                          <div class="progress-bar progress-bar-success progress-bar-striped text-dark bg-success" role="progressbar" aria-valuenow="{{forloop.counter|percentage:lectures.count}}0"
-                          aria-valuemin="0" aria-valuemax="100" style="width:{{forloop.counter|percentage:lectures.count}}%">
-                          {{forloop.counter|percentage:lectures.count}}% Completed
+                          <div class="progress-bar progress-bar-success progress-bar-striped text-dark bg-success" role="progressbar" aria-valuenow="{{pro.progress_count|percentage:pro.lecture_count}}0"
+                          aria-valuemin="0" aria-valuemax="100" style="width:{{pro.progress_count|percentage:pro.lecture_count}}%">
+                          {{pro.progress_count|percentage:pro.lecture_count}}% Completed
                           </div>
                         </div></td>
                         
 
                         {% endif %}
-                        {% endfor %}
                         {% endfor %}
                         {% else %}
                         <td><div class="progress">
@@ -130,7 +132,7 @@
                                     {% endif %}
                                     {% endfor %}
                                     {% else %}
-                                    <td><span class="badge badge-danger" >Uncompleted</span></td>
+                                    <td><span class="badge badge-danger" >Incomplete</span></td>
                                     {% endif %}
                                 </tr>
                             {% endfor %}

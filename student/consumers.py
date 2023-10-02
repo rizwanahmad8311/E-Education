@@ -35,6 +35,8 @@ class MyAsyncConsumer(AsyncConsumer):
                 await database_sync_to_async(chat.save)()
 
                 data['user'] = self.scope['user'].username
+                data['f_name'] = self.scope['user'].first_name
+                data['l_name'] = self.scope['user'].last_name
 
                 await self.channel_layer.group_send(self.groupname,
                 {

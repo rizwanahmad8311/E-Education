@@ -3,7 +3,7 @@ from . import forms
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.views import View
-from .models import IsProfessor, AssignProfessor, Course_media, Enrollment, Course, Forgot_Password, TimeTable
+from .models import IsProfessor, AssignProfessor, Course_media, Enrollment, Course, Forgot_Password, TimeTable, Class
 from django.contrib.auth.hashers import make_password
 import uuid
 from django.contrib.auth.decorators import login_required
@@ -187,6 +187,19 @@ class Forgot_Link_View(View):
 
 def my_profile(request):
     user_data = User.objects.get(pk=request.user.id)
+    if request.method == 'GET':
+        form = forms.ProfileUpdateForm(instance=user_data)
+        data = {
+            'user': user_data,
+            'myprofile': True,
+            'pgname': 'My Profile',
+            'logged': True,
+            'form': form,
+        }
+    return render(request, 'professor/myprofile.html', data)
+
+def my_profile_edit(request):
+    user_data = User.objects.get(pk=request.user.id)
     if request.method == 'POST':
         form = forms.ProfileUpdateForm(request.POST, instance=user_data)
         if form.is_valid():
@@ -200,7 +213,7 @@ def my_profile(request):
                 'form': form,
                 'success': 'Profile has been updated',
             }
-            return render(request, 'professor/myprofile.html', data)
+            return render(request, 'professor/myprofileedit.html', data)
         else:
             data = {
                 'user': user_data,
@@ -210,7 +223,7 @@ def my_profile(request):
                 'form': form,
                 'error': 'A user with that username already exists.',
             }
-            return render(request, 'professor/myprofile.html', data)
+            return render(request, 'professor/myprofileedit.html', data)
     else:
         form = forms.ProfileUpdateForm(instance=user_data)
         data = {
@@ -220,7 +233,7 @@ def my_profile(request):
             'logged': True,
             'form': form,
         }
-    return render(request, 'professor/myprofile.html', data)
+    return render(request, 'professor/myprofileedit.html', data)
 
 
 def user_logout(request):
@@ -458,20 +471,38 @@ def add_course(request):
         add_course_form = forms.AddCourseForm(request.POST)
         add_class_form = forms.AddClassForm(request.POST)
         if add_course_form.is_valid() and add_class_form.is_valid():
-            course_instance = add_course_form.save()
-            class_instance = add_class_form.save()
-            assign_professor = AssignProfessor(prf_id=user_db,class_id=class_instance,course_id=course_instance)
-            assign_professor.save()
-            data = {
-                'user': user_db,
-                'addcourse': True,
-                'pgname': 'Add Course',
-                'logged': True,
-                "add_course_form":forms.AddCourseForm(),
-                "add_class_form":forms.AddClassForm(),
-                "success":"Course Added Successfully",
-            }
-            return render(request,'professor/add_course.html',data)
+            class_instance = add_class_form.save(commit=False)
+            course_instance = add_course_form.save(commit=False)
+            try:
+                course_obj = Course.objects.get(course_title=course_instance.course_title)
+                print(course_obj)
+                class_obj = Class.objects.get(class_title=class_instance.class_title,section=class_instance.section,batch=class_instance.batch,session=class_instance.session)
+                print(class_obj)
+                data = {
+                    'user': user_db,
+                    'addcourse': True,
+                    'pgname': 'Add Course',
+                    'logged': True,
+                    "add_course_form":forms.AddCourseForm(),
+                    "add_class_form":forms.AddClassForm(),
+                    "error":"Course Already Exists",
+                }
+                return render(request,'professor/add_course.html',data)
+            except:
+                class_instance = add_class_form.save()
+                course_instance = add_course_form.save()
+                assign_professor = AssignProfessor(prf_id=user_db,class_id=class_instance,course_id=course_instance)
+                assign_professor.save()
+                data = {
+                    'user': user_db,
+                    'addcourse': True,
+                    'pgname': 'Add Course',
+                    'logged': True,
+                    "add_course_form":forms.AddCourseForm(),
+                    "add_class_form":forms.AddClassForm(),
+                    "success":"Course Added Successfully",
+                }
+                return render(request,'professor/add_course.html',data)
         else:
             data = {
                 'user': user_db,

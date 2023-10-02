@@ -30,9 +30,9 @@
                           
                       {% for course in mycourses %}
                       <tr>
-                        <td>{{course.course_id.title}}</td>
+                        <td>{{course.course_id.course_title}}</td>
                         <td>{{course.class_id.batch}}</td>
-                        <td>{{course.class_id.title}}</td>
+                        <td>{{course.class_id.class_title}}</td>
                         <td>{{course.class_id.section}}</td>
                         {% for i in enrollment %}
                         {% if i.course_id.id == course.id %}

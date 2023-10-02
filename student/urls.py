@@ -8,6 +8,7 @@ urlpatterns = [
     path('forgot-password/', views.Forgot_Password_View.as_view() ,name="st-forgot-password"),
     path('forgot-password/<uuid>/', views.Forgot_Link_View.as_view() ,name="st-forgotlink"),
     path('myprofile/', views.my_profile ,name="st-myprofile"),
+    path('myprofile/edit', views.my_profile_edit ,name="st-myprofile-edit"),
     path('courses/', views.courses ,name="courses"),
     path('courses/apply/<str:id>/', views.apply_enrollment ,name="st-courses-apply"),
     path('myenrollments/', views.myenrollments ,name="myenrollments"),

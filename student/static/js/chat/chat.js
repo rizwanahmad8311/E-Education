@@ -29,16 +29,15 @@ var ws = new WebSocket(
     ws.onopen = function(){
         // const chatbox = document.getElementById('#chatbox')
         // chatbox.scrollTop = chatbox.scrollHeight
-        console.log("websocket connection open...")
+        console.log("websocket connection open...",groupname)
 
     }
     ws.onmessage = function(event){
-        console.log("Message Received from server...",event.data)
+        // console.log("Message Received from server...",event.data)
         const data = JSON.parse(event.data)      //  string to object
         const currentUser = JSON.parse(document.getElementById('user_name').textContent);
         const first_name = JSON.parse(document.getElementById('first_name').textContent);
         const last_name = JSON.parse(document.getElementById('last_name').textContent);
-        console.log(first_name);
         var date = new Date();
         var hours = date.getHours();
         var hours = date.getHours();
@@ -70,7 +69,7 @@ var ws = new WebSocket(
             // console.log(first_name);
             let userHtml ='<div class="media media-chat">'+
             '<div class="media-body">'+
-            '<p> <span class="text-dark"><u>'+ first_name + ' ' + last_name +'</u></span> <br>'+ data.msg +'</p>'+
+            '<p> <span class="text-dark"><u>'+ data.f_name + ' ' + data.l_name +'</u></span> <br>'+ data.msg +'</p>'+
                 '<p class="meta"><time datetime="2018">'+strDate + strTime + '</time></p>'+
             '</div>'+
         '</div>'
